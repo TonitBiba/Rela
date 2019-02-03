@@ -1,0 +1,16 @@
+# This is simple script, which is designed to make backups of SQL server Express Edition.
+# This script will be executed daily, at 12:00:00 AM, with Windows Task Scheduler.
+
+
+# Test if there exist backup with the same name. If exist, remove that backup.
+if(Test-Path C:\Users\xxxxxxx\Desktop\Backups\dbName.bak)
+{
+    del C:\Users\xxxxxxx\Desktop\Backups\dbName.bak    
+}
+
+$databaseName = "dbName"
+
+#Query to back up database. These back up can be made from SSMS or from sqlcmd.
+$query = "backup database rela to disk ='C:\Users\xxxxxxx\Desktop\Backups\dbName.bak' with copy_only"
+
+Invoke-sqlcmd -serverinstance .\SQLEXPRESS -database dbName -query $query
