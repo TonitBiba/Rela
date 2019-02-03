@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewBag.Title = "Check Similarity View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var checkErorrResult = ViewBag.ChekcSimilarityError;
+}
+
+<link href="~/Content/toastr.min.css" rel="stylesheet" />
+<script src="~/Scripts/toastr.min.js"></script>
+
+<div class="alert alert-dismissible alert-danger d-none" id="alertToManyRequest">
+    <button class="close" type="button" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading">To many request</h4>
+    <p class="mb-0">Dear user you have exceeded the maximum number of request that you can make to this site. To protect this site from potentional attack, we have blocked this service right now. You can try again after <b>5 minutes</b> and it will work.</p>
+</div>
+
+<div class="alert alert-dismissible alert-danger d-none" id="alertNumberFaces">
+    <button class="close" type="button" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading"> Image not correct </h4>
+    <p class="mb-0"> Dear user, in order to process your image correctly we need image with 3 or more faces. Our system has detected that there are @checkErorrResult faces.</p>
+</div>
+
+<div class="alert alert-dismissible alert-danger d-none" id="alertFaceError">
+    <button class="close" type="button" data-dismiss="alert">&times;</button>
+    <h4 class="alert-heading"> Images not correct </h4>
+    <p class="mb-0"> @checkErorrResult </p>
+</div>
+
+
+
+<div id="accordion">
+    <div class="card">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapseOne">
+                Check your similarity with your parents with different photo
+            </a>
+        </div>
+        <div id="collapseOne" class="collapse show" data-parent="#accordion">
+            <div class="card-body">
+                @using (Html.BeginForm("DisplayResults3View", "CheckSimilarity", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    <script>
+                        grecaptcha.ready(function () {
+                            grecaptcha.execute('6LePo4YUAAAAAJF4KNSNsBxshWHSmJLwAVQjIoOX', { action: 'Index' }).then(function (token) {
+                                $("#g-recaptcha-response").val(token);
+                            });
+                        });
+                    </script>
+                    <input type="hidden" id="g-recaptcha-response" name="gRecaptchaResponse">
+                    <div class="row" id="selectUsersDifferent">
+                        <div class=" col-sm-4 mb-3">
+                            <div class="card w-75 d-block m-auto">
+                                <div class="card-header">
+                                    <h5 style="text-align:center">Father</h5>
+                                </div>
+                                <div class="card-body">
+                                    <img src="~/Images/Father.png" style="width:80%" class="rounded-circle d-block m-auto" id="fatherImage" />
+                                    <div class="custom-file">
+                                        <input type="file" id="father" name="father" class="custom-file-input" onchange="displayImportedImage(this,'fatherImage','father');" />
+                                        <label class="custom-file-label" for="father">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 mb-3">
+                            <div class="card w-75 d-block m-auto">
+                                <div class="card-header">
+                                    <h5 style="text-align:center">Mother</h5>
+                                </div>
+                                <div class="card-body">
+                                    <img src="~/Images/407475-mother-icon-illustration.jpg" style="width:80%" class="rounded-circle d-block m-auto" id="motherImage" />
+                                    <div class="custom-file">
+                                        <input type="file" id="mother" name="mother" required class="custom-file-input" onchange="displayImportedImage(this, 'motherImage', 'mother');" />
+                                        <label class="custom-file-label" for="mother">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4 mb-3">
+                            <div class="card w-75 d-block m-auto">
+                                <div class="card-header">
+                                    <h5 style="text-align:center">Children</h5>
+                                </div>
+                                <div class="card-body">
+                                    <img src="~/Images/child.png" style="width:80%" class="rounded-circle d-block m-auto" id="childrenImage" />
+                                    <div class="custom-file">
+                                        <input type="file" id="children" name="children" required class="custom-file-input" onchange="displayImportedImage(this,'childrenImage','children')" />
+                                        <label class="custom-file-label" for="childrenFile">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input type="submit" value="Compare" class="btn btn-outline-info d-block" style="margin:auto;margin-top:30px; padding:5px 10px;" id="btnFamily3" />
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <a class="card-link" data-toggle="collapse" href="#collapseTwo">
+                Check your similarity with your parents in one photo
+            </a>
+        </div>
+        <div id="collapseTwo" class="collapse" data-parent="#accordion">
+            <div class="card-body">
+                @using (Html.BeginForm("findFatherMotherChildren", "CheckSimilarity", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                {
+                    <script>
+                        grecaptcha.ready(function () {
+                            grecaptcha.execute('6LePo4YUAAAAAJF4KNSNsBxshWHSmJLwAVQjIoOX', { action: 'Index' }).then(function (token) {
+                                $("#g-recaptcha-response").val(token);
+                            });
+                        });
+                    </script>
+                    <input type="hidden" id="g-recaptcha-response" name="gRecaptchaResponse">
+                    <div class="text-danger mb-2 ml-2">
+                        Please choose image with 3 faces.
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 mb-3">
+                            <div class="card d-block m-auto" style="width:50%">
+                                <div class="card-header">
+                                    <h5 style="text-align:center;color:black"> Togethere photo </h5>
+                                </div>
+                                <div class="card-body">
+                                    <img src="~/Images/37-512.png" style="width:100%; z-index: 0" id="familyImage" />
+                                    <div class="custom-file">
+                                        <input type="file" id="familyTogether" name="familyTogether" required class="custom-file-input" onchange="displayImportedImage(this, 'familyImage', 'familyTogether');" />
+                                        <label class="custom-file-label" for="familyTogether">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-block m-auto">
+                            <input type="submit" value="Compare" class="btn btn-outline-info d-block m-auto" id="bntFamilyCompare" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="modalLogIn">
+    <div class="modal-dialog-centered">
+        <div class="modal-body d-block m-auto">
+            <img src="~/Images/loading.gif" class="d-block m-auto p-4" />
+        </div>
+    </div>
+</div>
+
+
+<script>
+    if ("@checkErorrResult" == "429") {
+        $("#alertToManyRequest").removeClass("d-none");
+        $("#alertToManyRequest").addClass("d-block");
+    } else if (!isNaN(@checkErorrResult)) {
+        $("#alertNumberFaces").removeClass("d-none");
+        $("#alertNumberFaces").addClass("d-block");
+    } else if ("@checkErorrResult" != "") {
+        $("#alertFaceError").removeClass("d-none");
+        $("#alertFaceError").addClass("d-block");
+    }
+
+    $("#bntFamilyCompare").click(function () {
+        $("#modalLogIn").modal("toggle");
+    });
+
+    $("#btnFamily3").click(function () {
+        $("#modalLogIn").modal("toggle");
+    });
+
+    function displayImportedImage(image, imageId, fileInputId) {
+        if (FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(image.files[0]);
+            reader.onload = function (e) {
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function () {
+                    $("#" + fileInputId).append('');
+                    $("#" + imageId).attr("src", image.src);
+                };
+            }
+        }
+    }
+</script>

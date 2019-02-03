@@ -1,0 +1,324 @@
+﻿@model Rela_project.Models.Register.Register
+@{
+    Layout = null;
+    var error = ViewBag.RegisterError;
+}
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Sign Up</title>
+        <link rel="shortcut icon" href="~/Images/Rela.png" />
+        @Styles.Render("~/Content/login")
+        @Scripts.Render("~/bundles/Login")
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script src="https://www.google.com/recaptcha/api.js?render=6LePo4YUAAAAAJF4KNSNsBxshWHSmJLwAVQjIoOX"></script>
+
+
+        <style type="text/css">
+            body {
+                color: #999;
+                background: #f5f5f5;
+                font-family: 'Roboto', sans-serif;
+                background-image: url('../../Images/phil-botha-594612-unsplash.jpg');
+            }
+
+            .signup-form {
+                width: 390px;
+                margin: 0 auto;
+                padding: 30px 0;
+            }
+
+                .signup-form form {
+                    border-radius: 1px;
+                    margin-bottom: 15px;
+                    background: #fff;
+                    border: 1px solid #f3f3f3;
+                    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+                    padding: 30px;
+                }
+        </style>
+    </head>
+    <body style="background-size:inherit;">
+        <div class="border rounded mb-4 pt-5 pb-5 pl-4 pr-4" style="width:500px;margin:auto; margin-top:40px;background-color:white">
+            @using (Html.BeginForm("Index", "Register", FormMethod.Post, new { enctype = "multipart/form-data", id = "registerForm" }))
+            {
+                <script>
+                    grecaptcha.ready(function () {
+                        grecaptcha.execute('6LePo4YUAAAAAJF4KNSNsBxshWHSmJLwAVQjIoOX', { action: 'Index' }).then(function (token) {
+                            $("#g-recaptcha-response").val(token);
+                        });
+                    });
+                </script>
+                <input type="hidden" id="g-recaptcha-response" name="gRecaptchaResponse">
+
+                @Html.AntiForgeryToken()
+                <h4 style="color:black;margin-bottom:30px" class="text-center">Create your account to Rela</h4>
+
+                <div class="form-group mb-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <i class="input-group-text fa fa-paper-plane-o"> </i>
+                        </div>
+                        @Html.TextBoxFor(register => register.Email, new { @class = "form-control rounded", @placeholder = "Email", @required = "", type = "email" })
+                        @Html.ValidationMessageFor(register => register.Email)
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <i class="input-group-text fa fa-user-circle"></i>
+                        </div>
+                        @Html.TextBoxFor(register => register.UserName, new { @class = "form-control rounded", @placeholder = "Username", @required = "" })
+                        @Html.ValidationMessageFor(register => register.UserName)
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <i class="input-group-text fa fa-key"></i>
+                        </div>
+                        @Html.PasswordFor(register => register.Password, new { @class = "form-control rounded", @placeholder = "Password", @required = "" })
+                        @Html.ValidationMessageFor(register => register.Password)
+                    </div>
+                </div>
+
+                <div class="form-group mb-4">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <i class="input-group-text fa fa-key"></i>
+                        </div>
+                        @Html.PasswordFor(register => register.ConfirmPassword, new { @class = "form-control rounded", @placeholder = "Confirm password", @required = "" })
+                        @Html.ValidationMessageFor(register => register.ConfirmPassword)
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="input-group-text fa fa-font"></i>
+                                </div>
+                                @Html.TextBoxFor(register => register.FirstName, new { @class = "form-control rounded", @placeholder = "Firstname", @required = "" })
+                                @Html.ValidationMessageFor(register => register.FirstName)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="input-group-text fa fa-font"></i>
+                                </div>
+                                @Html.TextBoxFor(register => register.LastName, new { @class = "form-control rounded", @placeholder = "Lastname", @required = "" })
+                                @Html.ValidationMessageFor(register => register.LastName)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <i class="input-group-text fa fa-mobile-phone"></i>
+                                </div>
+                                <input type="tel" class="form-control rounded" placeholder="Phone number" name="PhoneNumber" />
+                                @Html.ValidationMessageFor(register => register.PhoneNumber)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <i class="input-group-text fa fa-birthday-cake"></i>
+                            </div>
+                            <input type="date" name="BirthDate" class="form-control rounded" placeholder="Birthdate" min="1900-01-01" max="2019-01-01" />
+                            @Html.ValidationMessageFor(register => register.BirthDate)
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-4">
+                    <div class="col-6">
+                        <label for="userProfileImage" style="color:black"> User image </label>
+                        <div class="form-group">
+                            <img id="imagenFondo" src="~/Images/userIcon.png" style="height: 150px;width: 150px;" class="d-block m-auto rounded-circle">
+                        </div>
+                        <div class="form-group">
+                            <input type="file" id="userProfileImage" name="userProfileImage" class="form-control-file" onchange="preview_2(this);" />
+                        </div>
+                    </div>
+                    <div class="col-6 d-block m-auto">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-4">
+                                    <p style="color:black">Gender:</p>
+                                </div>
+                                <div class="col-8">
+                                    <div class="custom-control custom-radio">
+                                        <input name="Gender" id="cmbMale" class="custom-control-input" value="M" type="radio" checked>
+                                        <label class="custom-control-label" for="cmbMale" style="color:black"> Male</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input name="Gender" id="cmdFemale" class="custom-control-input" value="F" type="radio">
+                                        <label class="custom-control-label" for="cmdFemale" style="color:black"> Female</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input name="Gender" id="cmbUnspecified" class="custom-control-input" value="U" type="radio">
+                                        <label class="custom-control-label" for="cmbUnspecified" style="color:black"> Unspecified</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                @Html.ValidationMessageFor(register => register.gRecaptchaResponse, null, new { @class = "text-danger" })
+
+                <div class="form-group mb-4">
+                    <button type="submit" id="btnSignUp" class="btn btn-primary btn-block btn-lg w-75 d-block m-auto">Sign Up</button>
+                </div>
+                <p class="small text-center">By clicking the Sign Up button, you agree to our <br><a href="#">Terms &amp; Conditions</a>, and <a href="#">Privacy Policy</a>.</p>
+
+
+            }
+            <div class="text-center" style="color:black">Already have an account? @Html.ActionLink("Login", "Index", "LogIn") </div>
+        </div>
+
+        <div class="modal" id="modalLogIn">
+            <div class="modal-dialog-centered">
+                <div class="modal-body d-block m-auto">
+                    <img src="~/Images/loading.gif" class="d-block m-auto p-4" />
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+
+
+
+
+<script>
+    $("#password").keyup(function () {
+        var password = $(this).val();
+        var errorPassword = "";
+        if (password.length < 6 || password.length > 17)
+            errorPassword += "<br> *Your password must be 6 to 17 characters";
+        if (!(/[0-9]/.test(password)))
+            errorPassword += "<br> *Your password must contain number";
+        if (!(/[a-z]/.test(password)))
+            errorPassword += "<br> *Your password must contain letter";
+        if (!(/[A-Z]/.test(password)))
+            errorPassword += "<br> *Your password must contain big letter";
+        if (!(/[!#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)))
+            errorPassword += "<br> *Your password must contain special character";
+        $("#txtPasswordRequirments").text("");
+        $("#txtPasswordRequirments").append(errorPassword);
+        if (errorPassword.length > 0)
+            $("#btnSubmit").attr("disabled", true);
+        else
+            $("#btnSubmit").attr("disabled", false);
+    });
+
+    $("#retypePassword").keyup(function () {
+        if ($("#password").val() == $("#retypePassword").val()) {
+            $("#btnSubmit").attr("disabled", false);
+        }
+        else {
+            $("#btnSubmit").attr("disabled", true);
+        }
+    });
+
+
+    var outImage = "imagenFondo";
+    function preview_2(obj) {
+        if (FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(obj.files[0]);
+            reader.onload = function (e) {
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function () {
+                    $("#userImage").append('')
+                    document.getElementById(outImage).src = image.src;
+                };
+            }
+        }
+        else {
+        }
+    }
+
+    toastr.options.closeButton = true;
+    toastr.options.newestOnTop = true;
+    toastr.options.progressBar = true;
+    toastr.options.timeOut = 400000;
+    toastr.options.showDuration = 300;
+    toastr.options.hideDuration = 200;
+    if ("@error" == "CaptchaError") {
+        toastr.info("You could not prove that you are not robot. Your ip might be blocked for security purpose.", "Captcha");
+    } else if ("@error" == "Error Sign up") {
+        toastr.error("Server side error.", "Server");
+    }
+
+    $("#UserName").focusout(function () {
+        if ($(this).val() != "") {
+            $.ajax({
+                type: "get",
+                url: "/Register/checkUsername",
+                data: { UserName: $(this).val() },
+                success: function (response) {
+                    if (response == "true") {
+                        toastr.error("Sorry, that username's taken. Try another?", "Username");
+                        $("#UserName").addClass("is-invalid");
+                        $("#btnSignUp").attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#UserName").removeClass("is-invalid");
+                        $("#UserName").addClass("is-valid");
+                        $("#btnSignUp").removeAttr("disabled");
+                    }
+                }
+            });
+        }
+    });
+
+
+    $("#Email").focusout(function () {
+        if ($(this).val() != "") {
+            $.ajax({
+                type: "get",
+                url: "/Register/checkEmail",
+                data: { Email: $(this).val() },
+                success: function (response) {
+                    if (response == "true") {
+                        toastr.error("Sorry, but there exist an account related to this mail. Try another?", "Email");
+                        $("#Email").addClass("is-invalid");
+                        $("#btnSignUp").attr("disabled", "disabled");
+                    }
+                    else {
+                        $("#Email").removeClass("is-invalid");
+                        $("#Email").addClass("is-valid");
+                        $("#btnSignUp").removeAttr("disabled");
+                    }
+                }
+            });
+        }
+    });
+
+
+
+
+    $("#btnSignUp").on("click", function () {
+        debugger;
+        if ($("#registerForm").valid() == true)
+            $("#modalLogIn").modal("toggle");
+    });
+
+</script>
+

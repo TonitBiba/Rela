@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Rela_project.Models.VoiceHistory>
+
+@{
+                /**/
+
+                ViewBag.Title = "Voice History";
+}
+
+<p style="font-size:1.6em; text-align:center; margin-top:20px; margin-bottom:30px">
+    History of images described by voice
+</p>
+
+<div class="d-block m-auto">
+    @{
+        if (Model.Count() > 0)
+        {
+            foreach (var image in Model)
+            {
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <img src="data:Image/png;base64,@image.image" class="border-bottom d-block m-auto" style="width:70%; border-radius:20px; max-width:300px" />
+                    </div>
+                    <div class="col-sm-5 d-block m-auto">
+                        <audio controls id="imageWithSong" class="d-block m-auto">
+                            <source src="data:audio/mp3;base64,@image.GoogleVoice" />
+                        </audio>
+                    </div>
+                </div>
+                <hr />
+            }
+        }
+        else
+        {
+            <div class="alert alert-dismissible alert-info">
+                <button class="close" type="button" data-dismiss="alert">&times;</button>
+                <h4 class="alert-heading">No image described with voice</h4>
+                <p class="mb-0"> Dear user you do not have any image described by voice in our site. If you want to make history and enjoy this project <b><a class="alert-link" href="/Home/Main">click here</a></b>.</p>
+            </div>
+        }
+    }
+</div>

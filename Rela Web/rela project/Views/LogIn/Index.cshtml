@@ -1,0 +1,213 @@
+﻿@model Rela_project.Models.LogIn.LogIn
+
+@{
+    Layout = null;
+    var error = ViewBag.LogInError;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title> Log In </title>
+    <link rel="shortcut icon" href="~/Images/Rela.png" />
+
+    @Styles.Render("~/Content/login")
+    @Scripts.Render("~/bundles/Login")
+
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LePo4YUAAAAAJF4KNSNsBxshWHSmJLwAVQjIoOX"></script>
+
+</head>
+<body style="background-size:inherit;">
+    <div class="card" style="width:30%; min-width:350px; max-width:350px; margin:auto; margin-top:100px">
+        <div class="card-header">
+            <h2 class="text-center"><span class="fa fa-sign-in"></span> Log In</h2>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Index", "LogIn", FormMethod.Post))
+            {
+                <script>
+                    grecaptcha.ready(function () {
+                        grecaptcha.execute('6LePo4YUAAAAAJF4KNSNsBxshWHSmJLwAVQjIoOX', { action: 'Index' }).then(function (token) {
+                            $("#g-recaptcha-response").val(token);
+                        });
+                    });
+                </script>
+                <input type="hidden" id="g-recaptcha-response" name="gRecaptchaResponse">
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.LabelFor(login => login.username)
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text fa fa-user"> </span>
+                        </div>
+                        @Html.TextBoxFor(login => login.username, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(login => login.username, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(login => login.password)
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text fa fa-user-secret"> </span>
+                        </div>
+                        @Html.PasswordFor(login => login.password, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(login => login.password, null, new { @class = "text-danger" })
+                </div>
+
+                @Html.ValidationMessageFor(login => login.gRecaptchaResponse, null, new { @class = "text-danger" })
+                <input type="submit" class="btn btn-primary d-block m-auto" style="width:80%" value="Log in" id="btnLogIn" />
+            }
+            <div style="margin-top:10px">
+                <button class="btn btn-sm btn-outline-success" id="btnRecoverPassword"> Forgot password? </button>
+                @Html.ActionLink("Sign up", "Index", "Register", null, new { @class = "btn btn-sm btn-outline-success float-right " })
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalRecoverPassword" style="width:320px; margin:auto">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style=" background-color:#CFF5EE">
+                    <h4 class="modal-title"> Recover password</h4>
+                    <button class="close" aria-label="Close" type="button" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="margin:10px" id="modalBody">
+                        <div class="form-group">
+                            @using (Ajax.BeginForm("ForgotPassword", "LogIn", new AjaxOptions
+                            {
+                                HttpMethod = "post",
+                                LoadingElementId = "modalLogIn",
+                                OnSuccess = "OnSuccess",
+                                OnBegin = "OnBegin",
+                                OnFailure = "OnFailure"
+                            }))
+                            {
+                                @Html.AntiForgeryToken();
+                                <label for="email">Email</label>
+                                <input type="email" required class="form-control" id="email" name="email" />
+
+                                <button type="submit" class="btn btn-outline-primary d-block m-auto"> Recover </button>
+                            }
+                        </div>
+                        <div id="circle" style="display:none">
+                            <div class="loader">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modalLogIn">
+        <div class="modal-dialog-centered">
+            <div class="modal-body d-block m-auto">
+                <img src="~/Images/loading.gif" class="d-block m-auto p-4" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function OnSuccess(data) {
+            $("#modalRecoverPassword").modal("hide");
+            $("#modalLogIn").modal("hide");
+            toastr.info("Check you email for further details.", "Check email");
+        }
+
+        function OnBegin(data) {
+            $("#modalRecoverPassword").modal("hide");
+            $("#modalLogIn").modal("show");
+        }
+
+        function OnFailure(data) {
+            toastr.error("There was an error while processing your requst. Please try again later.", "Server side error");
+        }
+
+        $("#btnLogIn").click(function () {
+            $("#modalLogIn").modal("toggle");
+        });
+        $(document).ready(function () {
+
+            toastr.options.closeButton = true;
+            toastr.options.newestOnTop = true;
+            toastr.options.progressBar = true;
+            toastr.options.timeOut = 400000;
+            toastr.options.showDuration = 300;
+            toastr.options.hideDuration = 200;
+
+            switch ("@error") {
+                case "Session has ended. Please log in again.":
+                    toastr.info("Your session has ended. Please log in again.", "Session");
+                    break;
+                case "Email_confirm":
+                    toastr.error("Email is not confirmed. Please check your email for further steps.", "Email not confirmed");
+                    break;
+                case "Error from server.":
+                    toastr.error("Server side error.", "Server");
+                    break;
+                case "429":
+                    toastr.info("You have made to many requests to this site. Try again after 5 minutes.", "To many requests");
+                    break;
+                case "invalid_grant":
+                    toastr.error("Username or password is incorrect.", "Log in error");
+                    break;
+                case "invalid_password":
+                    toastr.error("Password is incorrect.", "Log in error");
+                    break;
+                case "checkEmail":
+                    toastr.info("In order to use your account you must confirm it by clicking to the link we have sent to your mail.", "Confirm Email");
+                    break;
+                case "RecaptchaError":
+                    toastr.warning("You have failed to verify your identity. Your access could be block because of inappropriate use.", "Inappropriate use");
+                    break;
+                case "Account_locked":
+                    toastr.info("@ViewBag.LockError", "Account is locked");
+                    break;
+            }
+
+            $("#btnRecoverPassword").click(function () {
+                $("#modalRecoverPassword").modal("show");
+            });
+
+            $("#btnRecover").click(function () {
+                $("#circle").css("display", "inline");
+                $(this).attr("disabled", true);
+                $("#email").attr("disabled", true);
+                $("#modalBody").css("opacity", "0.7");
+                var dataToBeSend = {
+                    email: $("#email").val()
+                };
+                $.ajax({
+                    async: true,
+                    method: "POST",
+                    url: "/LogIn/ForgotPassword",
+                    data: JSON.stringify(dataToBeSend),
+                    dataType: "json",
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (msg) {
+                        $("#circle").css("display", "none");
+                        $("#btnRecover").attr("disabled", false);
+                        $("#email").attr("disabled", false);
+                        $("#modalBody").css("opacity", "1");
+                        toastr.info("We have send email to you with instructions to recover your account. Please check it for further steps.", "Password recovery");
+                    },
+                    error: function (msg) {
+                        $("#btnRecover").attr("disabled", false);
+                        $("#email").attr("disabled", false);
+                        $("#circle").css("display", "none");
+                        $("#modalBody").css("opacity", "1");
+                        toastr.error("Error: " + msg.message, "Error");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

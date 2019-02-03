@@ -1,0 +1,169 @@
+﻿@model Rela_project.Models.CheckSimilarity.DisplayResultsModel
+
+@{
+    ViewBag.Title = "Display Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var customer = Model;
+    string childrenSimilarity = "";
+    if (customer.checkSimilarity.similarityTest[0].Confidence > customer.checkSimilarity.similarityTest[1].Confidence)
+    {
+        childrenSimilarity = "We can conclude that you are very similar to your father.";
+    }
+    else if (customer.checkSimilarity.similarityTest[0].Confidence == customer.checkSimilarity.similarityTest[1].Confidence) {
+        childrenSimilarity = "This is very rare case because we have detected that you are in the same percentage with your mother and father.";
+    }
+    else
+    {
+        childrenSimilarity = "We can conclude that you are very similar to your mother.";
+    }
+}
+
+<link href="~/DataTable/datatables.min.css" rel="stylesheet" />
+<script src="~/DataTable/datatables.min.js"></script>
+<script src="~/DataTable/pdfmake-0.1.36/pdfmake.min.js"></script>
+
+
+
+<div class="card" style="margin-top:10px">
+    <div class="card-body">
+        <div class="alert alert-dismissible alert-success">
+            We have succesfully check your similarity with your parents. @childrenSimilarity
+        </div>
+
+        <div class="row">
+            <div class="col-sm-3 d-block m-auto">
+                <img src="data:Image/png;base64,@customer.father" style="width:100%; max-width:200px" class="d-block m-auto" />
+            </div>
+
+            <div class="col-sm-1 d-block m-auto">
+                <img src="~/Images/arrowLeft.png" class="m-auto" style="width:100%; display:none; max-width:150px" id="imgArrowLeft" />
+            </div>
+
+            <div class="col-sm-3 d-block m-auto">
+                <img src="data:Image/png;base64,@customer.children" style="width:100%; max-width:200px" class="d-block m-auto" />
+            </div>
+
+            <div class="col-sm-1 d-block m-auto">
+                <img src="~/Images/ArrowRight.png" class="m-auto" style="width:100%; display:none; max-width:150px" id="imgArrowRight" />
+            </div>
+
+            <div class="col-sm-3 d-block m-auto">
+                <img src="data:Image/png;base64,@customer.mother" style="width:100%; max-width:200px" class="d-block m-auto" />
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <script>
+            if ("@childrenSimilarity" == "We can conclude that you are very similar to your father.") {
+                $("#imgArrowLeft").css("display", "block");
+            } else if ("@childrenSimilarity" == "We can conclude that you are very similar to your mother.") {
+                $("#imgArrowRight").css("display", "block");
+            }
+            else {
+                $("#imgArrowRight").css("display", "block");
+                $("#imgArrowLeft").css("display", "block");
+            }
+
+            function convertToPercentage(value) {
+                var valueFromController = parseFloat(value) * 100;
+                        var exactValue = Math.round(valueFromController);
+                        document.write(exactValue);
+                return exactValue;
+            }
+        </script>
+
+        <table class="table" id="tblDisplayResults">
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Father(%)</th>
+                    <th>Children(%)</th>
+                    <th>Mother(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Similarity</td>
+                    <td><script>convertToPercentage("@customer.checkSimilarity.similarityTest[0].Confidence")</script></td>
+                    <td>-</td>
+                    <td><script>convertToPercentage("@customer.checkSimilarity.similarityTest[1].Confidence")</script></td>
+                </tr>
+
+                @if (customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.glasses != null && customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.glasses != null && customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.glasses != null)
+                {
+                    <tr>
+                        <td>Glasses</td>
+                        <td>@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.glasses</td>
+                        <td>@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.glasses</td>
+                        <td>@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.glasses</td>
+                    </tr>
+                }
+                    <tr>
+                        <td>Smile</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.smile")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.smile")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.smile")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Emotion - anger</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.anger")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.anger")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.anger")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Contempt</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.contempt")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.contempt")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.contempt")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Disgust</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.disgust")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.disgust")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.disgust")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Fear</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.fear")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.fear")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.fear")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Happiness</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.happiness")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.happiness")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.happiness")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Neutral</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.neutral")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.neutral")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.neutral")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Sadness</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.sadness")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.sadness")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.sadness")</script></td>
+                    </tr>
+                    <tr>
+                        <td>Surprise</td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[0].faceAttributes.emotion.surprise")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[2].faceAttributes.emotion.surprise")</script></td>
+                        <td><script>convertToPercentage("@customer.checkSimilarity.cognitiveMicrosoft[1].faceAttributes.emotion.surprise")</script></td>
+                    </tr>
+                </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#tblDisplayResults').DataTable();
+    });
+</script>
+
+

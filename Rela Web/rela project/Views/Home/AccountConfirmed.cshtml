@@ -1,0 +1,42 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>AccountConfirmed</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <h3>Your account has been succesfully confirmed. Now you can start using your account.</h3>
+        <h4>Please wait while we redirect you to log in page.</h4>
+        <div class="progress mb-3">
+            <div id="progressBar" class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" value="50" aria-valuemin="0" aria-valuemax="100" style="width: 0%">Congratulation<span class="glyphicon glyphicon-arrow-right"></span></div>
+        </div>
+        <a href="https://www.relaproject.cf/" class="btn btn-outline-primary"> Click here to redirect to LogIn</a>
+    </div>
+    <script>
+        $(document).ready(function () {
+            setInterval(updateTimer, 800);
+            function updateTimer() {
+                var value = parseInt($("#progressBar").width());
+                if (value > 500) {
+                    window.location.href = "https://www.relaproject.cf/";
+                }
+                else {
+                    value = value + 1;
+                    $("#progressBar").width(value + "%");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

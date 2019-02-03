@@ -1,0 +1,915 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RelaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="BirthDate" Type="datetime" Nullable="false" />
+          <Property Name="Level" Type="tinyint" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="user_image" Type="nvarchar(max)" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="5" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GoogleFace">
+          <Key>
+            <PropertyRef Name="googleId" />
+          </Key>
+          <Property Name="googleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageId" Type="int" />
+          <Property Name="GoogleFace" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GoogleLabel">
+          <Key>
+            <PropertyRef Name="labelId" />
+          </Key>
+          <Property Name="labelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageId" Type="int" />
+          <Property Name="GoogleLabel" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GoogleLandmark">
+          <Key>
+            <PropertyRef Name="landmarkId" />
+          </Key>
+          <Property Name="landmarkId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageId" Type="int" Nullable="false" />
+          <Property Name="GoogleLandamark" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="GoogleLogo">
+          <Key>
+            <PropertyRef Name="logoId" />
+          </Key>
+          <Property Name="logoId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageId" Type="int" />
+          <Property Name="GoogleLogo" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="ImagesProceseds">
+          <Key>
+            <PropertyRef Name="imageId" />
+          </Key>
+          <Property Name="imageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="hostname" Type="nvarchar" MaxLength="100" />
+          <Property Name="ip" Type="nvarchar" MaxLength="20" />
+          <Property Name="time_accessed" Type="datetime" />
+          <Property Name="url" Type="nvarchar" MaxLength="1024" />
+          <Property Name="success" Type="bit" />
+          <Property Name="score" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="action" Type="nvarchar" MaxLength="128" />
+          <Property Name="challenge_ts" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="MicrosoftFace">
+          <Key>
+            <PropertyRef Name="MFaceId" />
+          </Key>
+          <Property Name="MFaceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageId" Type="int" />
+          <Property Name="MicrosoftFace" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SimilarityTests">
+          <Key>
+            <PropertyRef Name="similarityId" />
+          </Key>
+          <Property Name="similarityId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="father" Type="nvarchar(max)" />
+          <Property Name="mother" Type="nvarchar(max)" />
+          <Property Name="imageId" Type="int" />
+        </EntityType>
+        <EntityType Name="Voice">
+          <Key>
+            <PropertyRef Name="voiceId" />
+          </Key>
+          <Property Name="voiceId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="imageId" Type="int" />
+          <Property Name="GoogleVoice" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImagesProceseds">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleFAce_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="0..1" />
+          <End Role="GoogleFace" Type="Self.GoogleFace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleFace">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleLabel_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="0..1" />
+          <End Role="GoogleLabel" Type="Self.GoogleLabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleLabel">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleLandmark_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="1" />
+          <End Role="GoogleLandmark" Type="Self.GoogleLandmark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleLandmark">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleLogo_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="0..1" />
+          <End Role="GoogleLogo" Type="Self.GoogleLogo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleLogo">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MicrosoftFace_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="0..1" />
+          <End Role="MicrosoftFace" Type="Self.MicrosoftFace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="MicrosoftFace">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SimilarityTests_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="0..1" />
+          <End Role="SimilarityTests" Type="Self.SimilarityTests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="SimilarityTests">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Voice_ImagesProceseds">
+          <End Role="ImagesProceseds" Type="Self.ImagesProceseds" Multiplicity="0..1" />
+          <End Role="Voice" Type="Self.Voice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProceseds">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="Voice">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RelaModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoogleFace" EntityType="Self.GoogleFace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoogleLabel" EntityType="Self.GoogleLabel" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoogleLandmark" EntityType="Self.GoogleLandmark" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GoogleLogo" EntityType="Self.GoogleLogo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImagesProceseds" EntityType="Self.ImagesProceseds" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MicrosoftFace" EntityType="Self.MicrosoftFace" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SimilarityTests" EntityType="Self.SimilarityTests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Voice" EntityType="Self.Voice" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleFAce_ImagesProceseds" Association="Self.FK_GoogleFAce_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="GoogleFace" EntitySet="GoogleFace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleLabel_ImagesProceseds" Association="Self.FK_GoogleLabel_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="GoogleLabel" EntitySet="GoogleLabel" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleLandmark_ImagesProceseds" Association="Self.FK_GoogleLandmark_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="GoogleLandmark" EntitySet="GoogleLandmark" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleLogo_ImagesProceseds" Association="Self.FK_GoogleLogo_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="GoogleLogo" EntitySet="GoogleLogo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MicrosoftFace_ImagesProceseds" Association="Self.FK_MicrosoftFace_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="MicrosoftFace" EntitySet="MicrosoftFace" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SimilarityTests_ImagesProceseds" Association="Self.FK_SimilarityTests_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="SimilarityTests" EntitySet="SimilarityTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Voice_ImagesProceseds" Association="Self.FK_Voice_ImagesProceseds">
+            <End Role="ImagesProceseds" EntitySet="ImagesProceseds" />
+            <End Role="Voice" EntitySet="Voice" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RelaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="GoogleFace">
+          <Key>
+            <PropertyRef Name="googleId" />
+          </Key>
+          <Property Name="googleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageId" Type="Int32" />
+          <Property Name="GoogleFace1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_GoogleFAce_ImagesProceseds" FromRole="GoogleFace" ToRole="ImagesProcesed" />
+        </EntityType>
+        <EntityType Name="GoogleLabel">
+          <Key>
+            <PropertyRef Name="labelId" />
+          </Key>
+          <Property Name="labelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageId" Type="Int32" />
+          <Property Name="GoogleLabel1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_GoogleLabel_ImagesProceseds" FromRole="GoogleLabel" ToRole="ImagesProcesed" />
+        </EntityType>
+        <EntityType Name="GoogleLandmark">
+          <Key>
+            <PropertyRef Name="landmarkId" />
+          </Key>
+          <Property Name="landmarkId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageId" Type="Int32" Nullable="false" />
+          <Property Name="GoogleLandamark" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_GoogleLandmark_ImagesProceseds" FromRole="GoogleLandmark" ToRole="ImagesProcesed" />
+        </EntityType>
+        <EntityType Name="GoogleLogo">
+          <Key>
+            <PropertyRef Name="logoId" />
+          </Key>
+          <Property Name="logoId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageId" Type="Int32" />
+          <Property Name="GoogleLogo1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_GoogleLogo_ImagesProceseds" FromRole="GoogleLogo" ToRole="ImagesProcesed" />
+        </EntityType>
+        <EntityType Name="MicrosoftFace">
+          <Key>
+            <PropertyRef Name="MFaceId" />
+          </Key>
+          <Property Name="MFaceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageId" Type="Int32" />
+          <Property Name="MicrosoftFace1" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_MicrosoftFace_ImagesProceseds" FromRole="MicrosoftFace" ToRole="ImagesProcesed" />
+        </EntityType>
+        <EntityType Name="Voice">
+          <Key>
+            <PropertyRef Name="voiceId" />
+          </Key>
+          <Property Name="voiceId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="imageId" Type="Int32" />
+          <Property Name="GoogleVoice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_Voice_ImagesProceseds" FromRole="Voice" ToRole="ImagesProcesed" />
+        </EntityType>
+        <EntityContainer Name="RelaEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="GoogleFaces" EntityType="Self.GoogleFace" />
+          <EntitySet Name="GoogleLabels" EntityType="Self.GoogleLabel" />
+          <EntitySet Name="GoogleLandmarks" EntityType="Self.GoogleLandmark" />
+          <EntitySet Name="GoogleLogoes" EntityType="Self.GoogleLogo" />
+          <EntitySet Name="MicrosoftFaces" EntityType="Self.MicrosoftFace" />
+          <EntitySet Name="Voices" EntityType="Self.Voice" />
+          <EntitySet Name="C__MigrationHistory" EntityType="RelaModel.C__MigrationHistory" />
+          <EntitySet Name="AspNetRoles" EntityType="RelaModel.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="RelaModel.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="RelaModel.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="RelaModel.AspNetUser" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="RelaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="RelaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="RelaModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="ImagesProceseds" EntityType="RelaModel.ImagesProcesed" />
+          <AssociationSet Name="FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId" Association="RelaModel.FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleFAce_ImagesProceseds" Association="RelaModel.FK_GoogleFAce_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="GoogleFace" EntitySet="GoogleFaces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleLabel_ImagesProceseds" Association="RelaModel.FK_GoogleLabel_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="GoogleLabel" EntitySet="GoogleLabels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleLandmark_ImagesProceseds" Association="RelaModel.FK_GoogleLandmark_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="GoogleLandmark" EntitySet="GoogleLandmarks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GoogleLogo_ImagesProceseds" Association="RelaModel.FK_GoogleLogo_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="GoogleLogo" EntitySet="GoogleLogoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MicrosoftFace_ImagesProceseds" Association="RelaModel.FK_MicrosoftFace_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="MicrosoftFace" EntitySet="MicrosoftFaces" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Voice_ImagesProceseds" Association="RelaModel.FK_Voice_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="Voice" EntitySet="Voices" />
+          </AssociationSet>
+          <EntitySet Name="SimilarityTests" EntityType="RelaModel.SimilarityTest" />
+          <AssociationSet Name="FK_SimilarityTests_ImagesProceseds" Association="RelaModel.FK_SimilarityTests_ImagesProceseds">
+            <End Role="ImagesProcesed" EntitySet="ImagesProceseds" />
+            <End Role="SimilarityTest" EntitySet="SimilarityTests" />
+          </AssociationSet>
+          <EntitySet Name="Logs" EntityType="RelaModel.Log" />
+        </EntityContainer>
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContextKey" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="ProductVersion" Type="String" Nullable="false" MaxLength="32" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Discriminator" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="RelaModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RelaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RelaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Level" Type="Byte" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="user_image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="RelaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="RelaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+          <NavigationProperty Name="AspNetRoles" Relationship="RelaModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+          <NavigationProperty Name="ImagesProceseds" Relationship="RelaModel.FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="ImagesProcesed" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="RelaModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RelaModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="RelaModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="RelaModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Type="RelaModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="RelaModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ImagesProcesed">
+          <Key>
+            <PropertyRef Name="imageId" />
+          </Key>
+          <Property Name="imageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="RelaModel.FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId" FromRole="ImagesProcesed" ToRole="AspNetUser" />
+          <NavigationProperty Name="GoogleFaces" Relationship="RelaModel.FK_GoogleFAce_ImagesProceseds" FromRole="ImagesProcesed" ToRole="GoogleFace" />
+          <NavigationProperty Name="GoogleLabels" Relationship="RelaModel.FK_GoogleLabel_ImagesProceseds" FromRole="ImagesProcesed" ToRole="GoogleLabel" />
+          <NavigationProperty Name="GoogleLandmarks" Relationship="RelaModel.FK_GoogleLandmark_ImagesProceseds" FromRole="ImagesProcesed" ToRole="GoogleLandmark" />
+          <NavigationProperty Name="GoogleLogoes" Relationship="RelaModel.FK_GoogleLogo_ImagesProceseds" FromRole="ImagesProcesed" ToRole="GoogleLogo" />
+          <NavigationProperty Name="MicrosoftFaces" Relationship="RelaModel.FK_MicrosoftFace_ImagesProceseds" FromRole="ImagesProcesed" ToRole="MicrosoftFace" />
+          <NavigationProperty Name="Voices" Relationship="RelaModel.FK_Voice_ImagesProceseds" FromRole="ImagesProcesed" ToRole="Voice" />
+          <NavigationProperty Name="SimilarityTests" Relationship="RelaModel.FK_SimilarityTests_ImagesProceseds" FromRole="ImagesProcesed" ToRole="SimilarityTest" />
+        </EntityType>
+        <Association Name="FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId">
+          <End Type="RelaModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImagesProcesed">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleFAce_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="0..1" />
+          <End Type="RelaModel.GoogleFace" Role="GoogleFace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleFace">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleLabel_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="0..1" />
+          <End Type="RelaModel.GoogleLabel" Role="GoogleLabel" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleLabel">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleLandmark_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="1" />
+          <End Type="RelaModel.GoogleLandmark" Role="GoogleLandmark" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleLandmark">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GoogleLogo_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="0..1" />
+          <End Type="RelaModel.GoogleLogo" Role="GoogleLogo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="GoogleLogo">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MicrosoftFace_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="0..1" />
+          <End Type="RelaModel.MicrosoftFace" Role="MicrosoftFace" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="MicrosoftFace">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Voice_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="0..1" />
+          <End Type="RelaModel.Voice" Role="Voice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="Voice">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SimilarityTest">
+          <Key>
+            <PropertyRef Name="similarityId" />
+          </Key>
+          <Property Name="similarityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="father" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mother" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="imageId" Type="Int32" />
+          <NavigationProperty Name="ImagesProcesed" Relationship="RelaModel.FK_SimilarityTests_ImagesProceseds" FromRole="SimilarityTest" ToRole="ImagesProcesed" />
+        </EntityType>
+        <Association Name="FK_SimilarityTests_ImagesProceseds">
+          <End Type="RelaModel.ImagesProcesed" Role="ImagesProcesed" Multiplicity="0..1" />
+          <End Type="RelaModel.SimilarityTest" Role="SimilarityTest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImagesProcesed">
+              <PropertyRef Name="imageId" />
+            </Principal>
+            <Dependent Role="SimilarityTest">
+              <PropertyRef Name="imageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="hostname" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ip" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="time_accessed" Type="DateTime" Precision="3" />
+          <Property Name="url" Type="String" MaxLength="1024" FixedLength="false" Unicode="true" />
+          <Property Name="success" Type="Boolean" />
+          <Property Name="score" Type="Decimal" Precision="4" Scale="2" />
+          <Property Name="action" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="challenge_ts" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RelaModelStoreContainer" CdmEntityContainer="RelaEntities">
+          <EntitySetMapping Name="GoogleFaces">
+            <EntityTypeMapping TypeName="RelaModel.GoogleFace">
+              <MappingFragment StoreEntitySet="GoogleFace">
+                <ScalarProperty Name="googleId" ColumnName="googleId" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="GoogleFace1" ColumnName="GoogleFace" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoogleLabels">
+            <EntityTypeMapping TypeName="RelaModel.GoogleLabel">
+              <MappingFragment StoreEntitySet="GoogleLabel">
+                <ScalarProperty Name="labelId" ColumnName="labelId" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="GoogleLabel1" ColumnName="GoogleLabel" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoogleLandmarks">
+            <EntityTypeMapping TypeName="RelaModel.GoogleLandmark">
+              <MappingFragment StoreEntitySet="GoogleLandmark">
+                <ScalarProperty Name="landmarkId" ColumnName="landmarkId" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="GoogleLandamark" ColumnName="GoogleLandamark" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GoogleLogoes">
+            <EntityTypeMapping TypeName="RelaModel.GoogleLogo">
+              <MappingFragment StoreEntitySet="GoogleLogo">
+                <ScalarProperty Name="logoId" ColumnName="logoId" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="GoogleLogo1" ColumnName="GoogleLogo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MicrosoftFaces">
+            <EntityTypeMapping TypeName="RelaModel.MicrosoftFace">
+              <MappingFragment StoreEntitySet="MicrosoftFace">
+                <ScalarProperty Name="MFaceId" ColumnName="MFaceId" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="MicrosoftFace1" ColumnName="MicrosoftFace" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Voices">
+            <EntityTypeMapping TypeName="RelaModel.Voice">
+              <MappingFragment StoreEntitySet="Voice">
+                <ScalarProperty Name="voiceId" ColumnName="voiceId" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="GoogleVoice" ColumnName="GoogleVoice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="RelaModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="RelaModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="RelaModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="RelaModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="RelaModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="user_image" ColumnName="user_image" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="RelaModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="ImagesProceseds">
+            <EntityTypeMapping TypeName="RelaModel.ImagesProcesed">
+              <MappingFragment StoreEntitySet="ImagesProceseds">
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SimilarityTests">
+            <EntityTypeMapping TypeName="RelaModel.SimilarityTest">
+              <MappingFragment StoreEntitySet="SimilarityTests">
+                <ScalarProperty Name="imageId" ColumnName="imageId" />
+                <ScalarProperty Name="mother" ColumnName="mother" />
+                <ScalarProperty Name="father" ColumnName="father" />
+                <ScalarProperty Name="similarityId" ColumnName="similarityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="RelaModel.Log">
+              <MappingFragment StoreEntitySet="Logs">
+                <ScalarProperty Name="challenge_ts" ColumnName="challenge_ts" />
+                <ScalarProperty Name="action" ColumnName="action" />
+                <ScalarProperty Name="score" ColumnName="score" />
+                <ScalarProperty Name="success" ColumnName="success" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="time_accessed" ColumnName="time_accessed" />
+                <ScalarProperty Name="ip" ColumnName="ip" />
+                <ScalarProperty Name="hostname" ColumnName="hostname" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

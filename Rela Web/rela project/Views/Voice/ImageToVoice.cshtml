@@ -1,0 +1,61 @@
+﻿
+@{
+                /**/
+
+                ViewBag.Title = "Describe image with voice";
+                Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> Are you ready to explore you knowledge? </h2>
+@using (Html.BeginForm("DescribeImageWithVoice", "Voice", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 style="text-align:center"><span class="fa fa-image"></span> Select image </h5>
+                </div>
+                <div class="card-body">
+                    <img src="" style="width:60%; height:auto" class="d-block m-auto" id="displayImage" />
+                    <div class="custom-file">
+                        <input type="file" id="image" name="image" required class="custom-file-input" onchange="displayImportedImage(this,'displayImage','image')" />
+                        <label class="custom-file-label" for="image"> Choose file </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-block m-auto">
+            <button type="submit" id="submitRequest" class="btn btn-outline-success d-block mt-5 m-auto p-3"><span class="fa fa-gear"></span>Analyze photo</button>
+        </div>
+    </div>
+}
+
+    <div class="modal" id="modalLogIn">
+        <div class="modal-dialog-centered">
+            <div class="modal-body d-block m-auto">
+                <img src="~/Images/loading.gif" class="d-block m-auto p-4" />
+            </div>
+        </div>
+    </div>
+
+<script>
+        function displayImportedImage(image, imageId, fileInputId) {
+            if (FileReader) {
+                var reader = new FileReader();
+                reader.readAsDataURL(image.files[0]);
+                reader.onload = function (e) {
+                    var image = new Image();
+                    image.src = e.target.result;
+                    image.onload = function () {
+                        $("#" + fileInputId).append('');
+                        $("#" + imageId).attr("src", image.src);
+                    };
+                }
+            }
+    }
+
+    $("#submitRequest").click(function () {
+        $("#modalLogIn").modal("toggle");
+    });
+</script>

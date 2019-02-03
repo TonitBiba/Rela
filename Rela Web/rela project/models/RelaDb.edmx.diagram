@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e90d6728b06a4dfab3d5ac4e5c36cdad" Name="Diagram1" ZoomLevel="83">
+        <EntityTypeShape EntityType="RelaModel.GoogleFace" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="RelaModel.GoogleLabel" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RelaModel.GoogleLandmark" Width="1.5" PointX="3" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RelaModel.GoogleLogo" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RelaModel.MicrosoftFace" Width="1.5" PointX="3" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="RelaModel.Voice" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RelaModel.C__MigrationHistory" Width="1.5" PointX="7.625" PointY="0.75" />
+        <EntityTypeShape EntityType="RelaModel.AspNetRole" Width="1.5" PointX="1.5" PointY="3" />
+        <EntityTypeShape EntityType="RelaModel.AspNetUserClaim" Width="1.5" PointX="3" PointY="14.125" />
+        <EntityTypeShape EntityType="RelaModel.AspNetUserLogin" Width="1.5" PointX="3" PointY="11.625" />
+        <EntityTypeShape EntityType="RelaModel.AspNetUser" Width="1.5" PointX="6.75" PointY="6.5" />
+        <AssociationConnector Association="RelaModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="RelaModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="RelaModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="RelaModel.ImagesProcesed" Width="1.5" PointX="9" PointY="7.5" />
+        <AssociationConnector Association="RelaModel.FK_dbo_ImagesProceseds_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="RelaModel.FK_GoogleFAce_ImagesProceseds" />
+        <AssociationConnector Association="RelaModel.FK_GoogleLabel_ImagesProceseds" />
+        <AssociationConnector Association="RelaModel.FK_GoogleLandmark_ImagesProceseds" />
+        <AssociationConnector Association="RelaModel.FK_GoogleLogo_ImagesProceseds" />
+        <AssociationConnector Association="RelaModel.FK_MicrosoftFace_ImagesProceseds" />
+        <AssociationConnector Association="RelaModel.FK_Voice_ImagesProceseds" />
+        <EntityTypeShape EntityType="RelaModel.SimilarityTest" Width="1.5" PointX="11.25" PointY="8.125" />
+        <AssociationConnector Association="RelaModel.FK_SimilarityTests_ImagesProceseds" />
+        <EntityTypeShape EntityType="RelaModel.Log" Width="1.5" PointX="9.375" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

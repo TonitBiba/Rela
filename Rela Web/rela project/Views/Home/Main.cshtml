@@ -1,0 +1,93 @@
+﻿@using Rela_project.Models.LogIn
+@{
+    ViewBag.Title = "Main";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var AccessToken = Session["Access_Token"];
+    User user = (User)HttpContext.Current.Session["userSession"];
+}
+
+<style>
+
+
+    #textForImage1 {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%)
+    }
+
+    #textForImage2 {
+        transition: .5s ease;
+        opacity: 0;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%)
+    }
+
+    .imagesModify:hover .image {
+        opacity: 0.3
+    }
+
+
+    .imagesModify:hover #textForImage1{
+        opacity:1;
+    }
+
+    .imagesModify:hover #textForImage2 {
+        opacity:1
+    }
+
+    .text {
+        background-color: #27B5B2;
+        border-radius: 10px;
+    }
+    .carousel-inner img{
+        border-radius:10px;
+    }
+h5{
+    font-size: 1.4em;
+}
+
+</style>
+
+    <div class="text-body text-center" style="font-size:2.0em">
+        Rela Project to test your similarity
+    </div>
+    <hr />
+    <div class="text-body text-center" style="font-size:1.5em">
+        You can use Rela to
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="col-md-6">
+            <button class='btn bg-primary w-75 d-block' style="margin:auto;margin-bottom:30px" id="btnCheckSimilarity">
+                <img src="~/Images/familiar-group-of-three-persons-father-mother-and-son (1).png" width="100" height="100" style="color:white" />
+                <div class="text-white">Check your similarity with your parents</div>
+            </button>
+        </div>
+        <div class="col-md-6">
+            <button class='btn bg-primary w-75 d-block' style="margin:auto;margin-bottom:30px" id="btnDescribeImageWithVoice">
+                <img src="~/Images/speaker.png" width="100" height="100" style="color:white" />
+                <div class="text-white">Describe image with voice</div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnDescribeImageWithVoice").click(function () {
+                window.location.href = "/Voice/ImageToVoice"
+            });
+
+            $("#btnCheckSimilarity").click(function () {
+                window.location.href = "/CheckSimilarity/CheckResultView";
+            });
+        });
+    </script>
+

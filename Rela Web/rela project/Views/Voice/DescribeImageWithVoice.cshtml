@@ -1,0 +1,25 @@
+﻿@model Rela_project.Models.DescribeImageVoice
+@{
+    ViewBag.Title = "DescribeImageWithVoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h2> Results of your image </h2>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card">
+                    <div class="card-body">
+                        <img src="data:Image/png;base64,@Model.imageBase64" style="width:80%" class="d-block m-auto" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <audio controls id="imageWithSong">
+                    <source src="data:audio/mp3;base64,@Model.voiceBase64" />
+                </audio>
+            </div>
+        </div>
+    </div>
+</div>

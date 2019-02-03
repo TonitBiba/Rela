@@ -1,0 +1,147 @@
+﻿@model Rela_project.Models.CheckSimilarity.DisplayResultModelFamily
+
+@{
+    ViewBag.Title = "Display Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var customer = Model;
+}
+<link href="~/DataTable/datatables.min.css" rel="stylesheet" />
+<script src="~/DataTable/datatables.min.js"></script>
+<script src="~/DataTable/pdfmake-0.1.36/pdfmake.min.js"></script>
+<script>
+    var usersImageDimension = [];
+
+    function drawRentagleToUser(topOriginal, leftOriginal, widthRentagleOriginal, heightRentagleOriginal, imageId, position) {
+        var rentagleOverPhoto = document.getElementById("drawRentagle");
+        var context = rentagleOverPhoto.getContext("2d");
+        context.strokeStyle = "#FFFF00"
+        context.lineWidth = 5;
+        var image = document.getElementById(imageId);
+        var originalWidth = parseFloat(image.naturalWidth);
+        var originalHeight = parseFloat(image.naturalHeight);
+        var shrinkedWidth = parseFloat(image.clientWidth);
+        var shrinkedHeight = parseFloat(image.clientHeight);
+        var koeficientiZvoglimitGjatesor = originalWidth / shrinkedWidth;
+        var koeficinetZvoglimitLartesise = originalHeight / shrinkedHeight;
+        var rentagleOfImageWidth = parseFloat(widthRentagleOriginal) / koeficientiZvoglimitGjatesor;
+        var rentagleOfImageHeight = parseFloat(heightRentagleOriginal) / koeficinetZvoglimitLartesise;
+        var topOfImage = parseFloat(topOriginal) / koeficientiZvoglimitGjatesor - 56;
+        var leftOfImage = parseFloat(leftOriginal) / koeficinetZvoglimitLartesise + 16;
+
+        context.strokeRect(leftOfImage, topOfImage, rentagleOfImageWidth, rentagleOfImageHeight);
+        context.font = "20px Arial";
+        context.fillStyle = "yellow";
+        context.fillText(position, leftOfImage + 10, topOfImage + 20);
+        //   context.font = "20px Arial";
+        //todo
+    }
+</script>
+<p style="text-align:center; font-size:1.6em;margin-bottom:40px">
+    Family display check results
+</p>
+
+@using (Ajax.BeginForm("updateDiv", "CheckSimilarity", new AjaxOptions
+{
+    UpdateTargetId = "updateTargetDiv",
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.Replace
+     
+}))
+{
+    <div class="row">
+        <div class="col-md-7 mb-3">
+            <div id="canvasRemove">
+                <img src="data:Image/png;base64,@customer.familyPhoto" style="width:90%; z-index: -1; max-width:400px" id="familyImageReal" />
+                <canvas id="drawRentagle" style="position:absolute; top:55px; left:0px; z-index:1;"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="text-body">
+                Dear user, our system has defined @customer.checkSimilarityTogether.cognitiveMicrosoft.Count faces. Based on our system we have defined father, mother and children in this order:
+
+                <div class="form-group">
+                    <label for="father"> Father position </label>
+                    <select class="form-control" id="father" name="father"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="mother">Mother position </label>
+                    <select class="form-control" id="mother" name="mother"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="children">Children position</label>
+                    <select class="form-control" id="children" name="children"></select>
+                </div>
+            </div>
+
+            <div class="text-body text-justify">
+                <p> If our system has detected faces correctly just click button Check similarity. If faces are not detected correctly jus select them in dropdown lists and click the same button.</p>
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-outline-primary d-block m-auto"> Check similarity </button>
+    </div>
+}
+<div id="updateTargetDiv">
+
+</div>
+
+@{
+    int k = 1;
+    foreach (var user in customer.checkSimilarityTogether.cognitiveMicrosoft)
+    {
+        <script>
+            $("#father").append('<option value="@user.faceId">' + @k + '</option>')
+            $("#mother").append('<option value="@user.faceId">' + @k + '</option>')
+            $("#children").append('<option value="@user.faceId">' + @k + '</option>')
+        </script>
+        k++;
+    }
+}
+<script>
+    function convertToPercentage(value) {
+        var valueFromController = parseFloat(value) * 100;
+        var exactValue = Math.round(valueFromController);
+        document.write(exactValue);
+        return exactValue;
+    }
+        $("#father").val("@customer.checkSimilarityTogether.cognitiveMicrosoft[customer.checkSimilarityTogether.fatherPositon].faceId");
+        $("#mother").val("@customer.checkSimilarityTogether.cognitiveMicrosoft[customer.checkSimilarityTogether.motherPosition].faceId");
+        $("#children").val("@customer.checkSimilarityTogether.cognitiveMicrosoft[customer.checkSimilarityTogether.childrenPosition].faceId");
+
+    function resizeRentagle() {
+        for (i = 0; i < usersImageDimension.length; i++) {
+            if (i % 4 == 0) {
+                drawRentagleToUser(usersImageDimension[i], usersImageDimension[i + 1], usersImageDimension[i + 2], usersImageDimension[i + 3], "familyImageReal");
+            }
+        }
+    }
+
+    var imageWidth = document.getElementById("familyImageReal").clientWidth;
+    var imageHeight = document.getElementById("familyImageReal").clientHeight;
+    $("#drawRentagle").attr("width", imageWidth);
+    $("#drawRentagle").attr("height", imageHeight);
+
+    $(window).resize(function () {
+        $("#drawRentagle").remove();
+        var width = document.getElementById("familyImageReal").clientWidth;
+        var height = document.getElementById("familyImageReal").clientHeight;
+        $("#canvasRemove").append('<canvas id="drawRentagle" height=' + height + ' width=' + width + ' style="position:absolute; top:55px; left:0px; z-index:1;"></canvas>');
+        resizeRentagle();
+        });
+</script>
+@{
+    for (int i = 0; i < customer.checkSimilarityTogether.cognitiveMicrosoft.Count; i++)
+    {
+        <script>
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.top);
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.left);
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.width);
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.height);
+        drawRentagleToUser("@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.top", "@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.left", "@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.width", "@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.height", "familyImageReal", "@(i+1)");
+        </script>
+    }
+}

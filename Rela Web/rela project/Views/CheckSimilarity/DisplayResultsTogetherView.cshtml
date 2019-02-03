@@ -1,0 +1,314 @@
+﻿@model Rela_project.Models.CheckSimilarity.DisplayResultModelFamily
+
+@{
+    ViewBag.Title = "Display Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var customer = Model;
+
+    string childrenSimilarity = "";
+    if (customer.checkSimilarityTogether.similarityTest[0].Confidence > customer.checkSimilarityTogether.similarityTest[1].Confidence)
+    {
+        childrenSimilarity = "We can conclude that you are very similar to your father.";
+    }
+    else if (customer.checkSimilarityTogether.similarityTest[0].Confidence == customer.checkSimilarityTogether.similarityTest[1].Confidence)
+    {
+        childrenSimilarity = "This is very rare case because we have detected that you are in the same percentage with your mother and father.";
+    }
+    else
+    {
+        childrenSimilarity = "We can conclude that you are very similar to your mother.";
+    }
+}
+
+<script>
+    var usersImageDimension = [];
+    function convertNumberToText(number) {
+        switch (number) {
+            case 0:
+                document.write(" first");
+                break;
+            case 1:
+                document.write(" second");
+                break;
+            case 2:
+                document.write(" third");
+                break;
+        }
+    }
+
+    function drawRentagleToUser(topOriginal, leftOriginal, widthRentagleOriginal, heightRentagleOriginal, imageId) {
+        var rentagleOverPhoto = document.getElementById("drawRentagle");
+        var context = rentagleOverPhoto.getContext("2d");
+        context.strokeStyle = "#FFFF00"
+        context.lineWidth = 5;
+        var image = document.getElementById(imageId);
+        var originalWidth = parseFloat(image.naturalWidth);
+        var originalHeight = parseFloat(image.naturalHeight);
+        var shrinkedWidth = parseFloat(image.clientWidth);
+        var shrinkedHeight = parseFloat(image.clientHeight);
+        var koeficientiZvoglimitGjatesor = originalWidth / shrinkedWidth;
+        var koeficinetZvoglimitLartesise = originalHeight / shrinkedHeight;
+        var rentagleOfImageWidth = parseFloat(widthRentagleOriginal) / koeficientiZvoglimitGjatesor;
+        var rentagleOfImageHeight = parseFloat(heightRentagleOriginal) / koeficinetZvoglimitLartesise;
+        var topOfImage = parseFloat(topOriginal) / koeficientiZvoglimitGjatesor-56;
+        var leftOfImage = parseFloat(leftOriginal) / koeficinetZvoglimitLartesise +16;
+
+        context.strokeRect(leftOfImage, topOfImage, rentagleOfImageWidth, rentagleOfImageHeight);
+        //   context.font = "20px Arial";
+        //todo
+    }
+</script>
+
+<link href="~/DataTable/datatables.min.css" rel="stylesheet" />
+<script src="~/DataTable/datatables.min.js"></script>
+<script src="~/DataTable/pdfmake-0.1.36/pdfmake.min.js"></script>
+
+<div class="card" style="margin-top:10px">
+    <div class="card-body">
+        <div class="alert alert-dismissible alert-success">
+            We have succesfully check your similarity with your parents. @childrenSimilarity
+        </div>
+        <div class="row">
+            <div class="col-md-8 mb-3">
+
+                    <div id="canvasRemove">
+                        <img src="data:Image/png;base64,@customer.familyPhoto" style="width:100%; z-index: -1" id="familyImageReal" />
+                        <canvas id="drawRentagle" style="position:absolute; top:55px; left:0px; z-index:1;"></canvas>
+                    </div>
+                </div>
+
+            <div class="col-md-4">
+                <div class="text-warning">
+                    Dear user, our system has made analysis of similarities of users based on this order:
+
+                    <div class="form-group">
+                        <label for="txtFirstPerson">
+                            The
+                            <script>convertNumberToText(@customer.checkSimilarityTogether.fatherPositon)</script> person should be:
+                        </label>
+                        <input type="text" id="txtFirstPerson" value="Father" class="form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtFirstPerson">
+                            The
+                            <script>convertNumberToText(@customer.checkSimilarityTogether.motherPosition)</script> person should be:
+                        </label>
+                        <input type="text" id="txtFirstPerson" value="Mother" class="form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtFirstPerson">
+                            The
+                            <script>convertNumberToText(@customer.checkSimilarityTogether.childrenPosition)</script> person should be:
+                        </label>
+                        <input type="text" id="txtFirstPerson" value="Children" class="form-control" disabled />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <script>
+            if ("@childrenSimilarity" == "We can conclude that you are very similar to your father.") {
+                $("#imgArrowLeft").css("display", "block");
+            } else if ("@childrenSimilarity" == "We can conclude that you are very similar to your mother.") {
+                $("#imgArrowRight").css("display", "block");
+            }
+            else {
+                $("#imgArrowRight").css("display", "block");
+                $("#imgArrowLeft").css("display", "block");
+            }
+
+            function convertToPercentage(value) {
+                var valueFromController = parseFloat(value) * 100;
+                        var exactValue = Math.round(valueFromController);
+                        document.write(exactValue);
+                return exactValue;
+            }
+        </script>
+
+        <table class="table" id="tblDisplayResults">
+            <thead>
+                <tr>
+                    <th>Attribute</th>
+                    <th>Father(%)</th>
+                    <th>Children(%)</th>
+                    <th>Mother(%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Similarity</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.similarityTest[0].Confidence")</script>
+                    </td>
+                    <td>-</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.similarityTest[1].Confidence")</script>
+                    </td>
+                </tr>
+
+                @if (customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.glasses != null && customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.glasses != null && customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.glasses != null)
+                {
+                    <tr>
+                        <td>Glasses</td>
+                        <td>@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.glasses</td>
+                        <td>@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.glasses</td>
+                        <td>@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.glasses</td>
+                    </tr>
+                }
+                <tr>
+                    <td>Smile</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.smile")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.smile")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.smile")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Emotion - anger</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.anger")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.anger")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.anger")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contempt</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.contempt")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.contempt")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.contempt")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Disgust</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.disgust")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.disgust")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.disgust")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Fear</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.fear")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.fear")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.fear")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Happiness</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.happiness")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.happiness")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.happiness")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Neutral</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.neutral")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.neutral")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.neutral")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sadness</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.sadness")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.sadness")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.sadness")</script>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Surprise</td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[0].faceAttributes.emotion.surprise")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[2].faceAttributes.emotion.surprise")</script>
+                    </td>
+                    <td>
+                        <script>convertToPercentage("@customer.checkSimilarityTogether.cognitiveMicrosoft[1].faceAttributes.emotion.surprise")</script>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#tblDisplayResults').DataTable();
+    });
+    function resizeRentagle() {
+        for (i = 0; i < usersImageDimension.length; i++) {
+            if (i % 4 == 0) {
+                drawRentagleToUser(usersImageDimension[i], usersImageDimension[i + 1], usersImageDimension[i + 2], usersImageDimension[i + 3], "familyImageReal");
+            }
+        }
+    }
+
+    var imageWidth = document.getElementById("familyImageReal").clientWidth;
+    var imageHeight = document.getElementById("familyImageReal").clientHeight;
+    $("#drawRentagle").attr("width", imageWidth);
+    $("#drawRentagle").attr("height", imageHeight);
+
+    $(window).resize(function () {
+        debugger;
+        $("#drawRentagle").remove();
+        var width = document.getElementById("familyImageReal").clientWidth;
+        var height = document.getElementById("familyImageReal").clientHeight;
+        $("#canvasRemove").append('<canvas id="drawRentagle" height=' + height + ' width=' + width + ' style="position:absolute; top:55px; left:0px; z-index:1;"></canvas>');
+        resizeRentagle();
+        });
+</script>
+@{
+    for (int i = 0; i < customer.checkSimilarityTogether.cognitiveMicrosoft.Count; i++)
+    {
+<script>
+                usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.top);
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.left);
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.width);
+        usersImageDimension.push(@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.height);
+        drawRentagleToUser("@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.top", "@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.left", "@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.width", "@customer.checkSimilarityTogether.cognitiveMicrosoft[i].faceRectangle.height", "familyImageReal");
+</script>
+    }
+}
