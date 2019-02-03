@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+			android:orientation="vertical"
+			android:minWidth="25px"
+			android:minHeight="25px"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/linearLayout1"
+			android:layout_marginLeft="20sp"
+			android:layout_marginRight="20sp"
+			android:layout_marginTop="20sp">
+			<TextView
+				android:text="Rela project"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:textColor="#ff000000"
+				android:textSize="22sp"
+				android:textAlignment="center"
+				android:layout_marginBottom="5sp" 
+		/>
+			<ImageButton
+				android:layout_width="match_parent"
+				android:layout_height="174.5dp"
+				android:id="@+id/btnCheckSimilarity"
+				android:background="#ff1217a8"
+				android:clickable="true"
+				android:textColor="#fffdfdfd"
+				android:theme="@android:style/ButtonBar"
+				android:src="@mipmap/family"
+				android:scaleType="fitCenter" 
+				/>
+			<TextView
+				android:text="Check your similarity with your parents"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView2"
+				android:layout_marginBottom="20sp"
+				android:textAlignment="center"
+				android:textSize="18sp"
+				android:textColor="#ff000000" />
+
+			<ImageButton
+				android:layout_width="match_parent"
+				android:layout_height="174.5dp"
+				android:id="@+id/btnVoiceDescribe"
+				android:background="#ff1217a8"
+				android:scaleType="fitCenter"
+				android:src="@mipmap/speaker" />
+
+			<TextView
+				android:text="Describe image with voice"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:id="@+id/textView3"
+				android:textSize="18sp"
+				android:textColor="#ff000000"
+				android:textAlignment="center" />
+		</LinearLayout>
