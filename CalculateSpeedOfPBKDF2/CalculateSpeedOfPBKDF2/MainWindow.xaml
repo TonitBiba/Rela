@@ -1,0 +1,30 @@
+﻿<Window x:Class="CalculateSpeedOfPBKDF2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CalculateSpeedOfPBKDF2"
+        mc:Ignorable="d"
+        Title="Rela project" Height="396" Width="755">
+    <Grid Loaded="Grid_Loaded" Margin="0,0,2,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="553*"/>
+            <ColumnDefinition Width="200*"/>
+        </Grid.ColumnDefinitions>
+        <TextBox HorizontalAlignment="Center" Height="34" Margin="10,10,10,311" TextWrapping="Wrap" Text="Speed test of PBKDF2 for Rela project" VerticalAlignment="Center" Width="725" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Times New Roman" FontSize="16" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="cmbNumberOfIteration" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Width="154" Height="29" FontFamily="Times New Roman" FontSize="14" SelectedIndex="1"/>
+        <ComboBox x:Name="cmbSaltSize" HorizontalAlignment="Left" Margin="198,109,0,0" VerticalAlignment="Top" Width="154" Height="29" FontFamily="Times New Roman" FontSize="14" SelectedIndex="1"/>
+        <ComboBox x:Name="cmbHashAlgorithm" HorizontalAlignment="Left" Margin="384,109,0,0" VerticalAlignment="Top" Width="154" Height="29" FontFamily="Times New Roman" FontSize="14" SelectedIndex="1"/>
+        <Button x:Name="btnCalculate" Content="Calculate" HorizontalAlignment="Left" Margin="296,167,0,0" VerticalAlignment="Top" Width="167" Height="41" FontFamily="Times New Roman" FontSize="14" Click="BtnCalculate_Click"/>
+        <Label Content="Number of iteration" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Width="154" Height="26"/>
+        <Label Content="Salt-Size (bit)" HorizontalAlignment="Left" Margin="198,80,0,0" VerticalAlignment="Top" Width="154" Height="29"/>
+        <Label Content="Hash algorithm" HorizontalAlignment="Left" Margin="384,80,0,0" VerticalAlignment="Top" Width="154" Height="26"/>
+        <TextBox x:Name="txtPassword" HorizontalAlignment="Left" Height="29" Margin="20,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" MaxLines="1"/>
+        <Label Content="Type password" HorizontalAlignment="Left" Margin="20,80,0,0" VerticalAlignment="Top" Width="168" FontFamily="Times New Roman" FontSize="14" Grid.Column="1" Height="26"/>
+        <Label Content="Speed (miliseconds)" HorizontalAlignment="Left" Margin="10,237,0,0" VerticalAlignment="Top" Width="168" FontFamily="Times New Roman" FontSize="14" Height="26"/>
+        <Label Content="Password hashed" HorizontalAlignment="Left" Margin="198,237,0,0" VerticalAlignment="Top" Width="154" FontFamily="Times New Roman" FontSize="14" Height="26"/>
+        <TextBox x:Name="txtSpeed" HorizontalAlignment="Left" Height="29" Margin="10,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" FontFamily="Times New Roman" FontSize="14"/>
+        <TextBox x:Name="txtHashedPassword" HorizontalAlignment="Left" Height="62" Margin="198,265,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="537" FontFamily="Times New Roman" FontSize="14" Grid.ColumnSpan="2"/>
+
+    </Grid>
+</Window>
