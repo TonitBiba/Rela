@@ -1,0 +1,27 @@
+# This is simple script, developed for two purpose. The first purpose is to get backup of database from Windows Server 
+# and second purpose is to Restore database. 
+#This script will be executed daily, at 12:30:00 AM, with CRON (analog to Windows Task Scheduler).
+
+#!/bin/bash
+
+# Home directory to save sql backups.
+cd /home/username
+
+# Start SFTP (Secure File Transfer Protocol) with Windows Server;
+#Move to folder where is located backup;
+#Get backup and finally stop sftp connection with server.
+
+sshpass -p YourPassword sftp Username@IpAdress <<EOL 
+cd /C:/Users/Username/Desktop/Backups
+get dbName.bak
+exit
+EOL
+
+#File downloaded from Windows server, now can be restored to Linux Server.
+
+sudo cp dbName.bak /home/Username/
+sqlcmd -S localhost -U MssqlUser -P YourPassword <<EOL
+RESTORE DATABASE dbName from disk = '/home/Username/dbName.bak'
+go
+exit
+EOL
