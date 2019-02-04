@@ -19,5 +19,5 @@ Also to support Rela project, are developed two scripts, one for Linux and one f
 	<li> Backup_RelaDb.ps1 </li>
 	<li> Restore_RelaDb_Linux </li>
 </ul>
-<p>In the following link https://www.dropbox.com/s/4alesbkpi66anbi/Android%20Rela.apk?dl=0 can be downloaded apk file of Android application.</p>
+<p>In the following link https://www.dropbox.com/s/1l2kihpn829cl6w/Rela%20project.apk?dl=0 can be downloaded apk file of Android application.</p>
 <p>To see website you can link www.relaproject.cf. </p>
